@@ -1,0 +1,2 @@
+rootProject.name = "Google map route finder"
+include ':app'
