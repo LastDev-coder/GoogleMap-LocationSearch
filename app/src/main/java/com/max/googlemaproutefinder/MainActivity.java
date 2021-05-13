@@ -1,7 +1,6 @@
 package com.max.googlemaproutefinder;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -37,17 +36,13 @@ import java.util.List;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    //to get location permissions.
     private final static int LOCATION_REQUEST_CODE = 23;
     protected LatLng start = null;
     protected LatLng end = null;
-    //current and destination location objects
     Location myLocation = null;
     Location destinationLocation = null;
     boolean locationPermission = false;
-    //google map object
     private GoogleMap mMap;
-    //polyline object
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +52,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-        //request location permission.
         requestPermision();
-
-        //init google map fragment to show map.
-        // SupportMapFragment mapFragment;
-        //  MapFragment mapFragment = (com.google.android.gms.maps.MapFragment) getFragmentManager().findFragmentById(R.id.map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -85,12 +75,10 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             case LOCATION_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //if permission granted.
                     locationPermission = true;
                     getMyLocation();
 
                 } else {
-                    // permission denied,
 
                 }
                 return;
@@ -98,7 +86,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    //to get user location
+    //to get my location
     private void getMyLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
@@ -126,7 +114,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-
+    // user searched location
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.search_address:
@@ -158,7 +146,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 mMap.animateCamera(cameraUpdate);
                             }
-                        }else {
+                        } else {
                             Toast.makeText(this, "Location not found", Toast.LENGTH_SHORT).show();
                         }
 
@@ -171,25 +159,13 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 break;
         }
     }
+
     private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
-        // below line is use to generate a drawable.
         Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
-
-        // below line is use to set bounds to our vector drawable.
         vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
-
-        // below line is use to create a bitmap for our
-        // drawable which we have added.
         Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-
-        // below line is use to add bitmap in our canvas.
         Canvas canvas = new Canvas(bitmap);
-
-        // below line is use to draw our
-        // vector drawable in canvas.
         vectorDrawable.draw(canvas);
-
-        // after generating our bitmap we are returning our bitmap.
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }
