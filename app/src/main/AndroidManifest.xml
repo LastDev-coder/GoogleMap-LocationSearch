@@ -13,7 +13,7 @@
         android:theme="@style/Theme.GoogleMapRouteFinder">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value= "AIzaSyAYJvkq0CaR0l-7MOwwFDL2__srhNdV0Kw" />
+            android:value= "your key" />
         <!-- Don't use my api key, it will not work for you.-->
 
 
